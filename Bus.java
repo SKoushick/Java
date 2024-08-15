@@ -1,11 +1,42 @@
 package Busresv;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-
 class Bus {
 
+int busno;
+boolean ac;
+int capacity;
+
+Bus(int no,boolean ac,int cap){
+    this.busno=no;
+    this.ac=ac;
+    this.capacity=cap;
+
+}
+
+public int getbusno(){
+    return busno;
+}
+public void setbusno(int no){
+    busno=no;
+
+}
+
+public boolean getac(){
+    return ac;
+}
+
+public void setac(boolean ac){
+    ac=ac;
+}
+
+public int getcapacity(){
+    return capacity;
+}
+public void setcapacity(int cap){
+    capacity=cap;
+}
+
+public void displayBusInfo(){
+    System.out.println("Busno"+busno+"acornot"+ac+"capacity"+capacity);
+}
 }
