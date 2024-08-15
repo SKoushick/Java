@@ -1,26 +1,49 @@
 package Busresv;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import java.util.Scanner;
-import java.util.ArrayList;
+public class Book {
+    String passengerName;
+    int busno;
+    Date date;
 
-class Booking {
-    public static void main(String args[]){
-
-        ArrayList<Bus> buses=new ArrayList<Bus>();
-
-        buses.add(new Bus(1,true,60));
-        buses.add(new Bus(2,false,45));
-        buses.add(new Bus(3,true,  50));
-
-        int userOpt=1;
+    Book(){
         Scanner scanner=new Scanner(System.in);
-        while (userOpt==1){
 
-        System.out.println("Enter 1 to book the bus");
-        userOpt=scanner.nextInt();
-        if(userOpt == 1){
-            System.out.println("Booking......");
+        System.out.println("Enter the passenger Name:");
+        passengerName=scanner.next();
+        System.out.println("Enter the busNo:");
+        busno=scanner.nextInt();
+        System.out.println("Enter date dd-mm-yyyy");
+        String DateInput=scanner.next();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            date =dateFormat.parse(DateInput);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
+
     }
-}
+
+    public boolean isAvailable(ArrayList<Book> bookings,ArrayList<Bus> buses){
+        int capacity=0;
+        int booked=0;
+
+        for(Bus bus:buses){
+            if(bus.getbusno()==busno){
+                capacity=bus.getcapacity();
+            }
+        for(Book b:bookings){
+            if(b.busno==busno && b.date.equals(date)){
+                booked++;
+            }
+        }
+        }
+        return booked<capacity?true:false;
+
+    }
 }
