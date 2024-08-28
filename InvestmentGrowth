@@ -19,6 +19,7 @@ growth[i] = initialAmount * annualInterestRate;
 growth[i] = growth[i - 1] + growth[i - 2]; }
 }
 // Display the growth of the investment over the years
-System.out.println("\nInvestment Growth Over " + numYears + " Years:"); for (int year = 0; year <numYears; year++) {
-initialAmount + growth[year]); }
+System.out.println("\nInvestment Growth Over " + numYears + " Years:"); 
+for (int year = 0; year <numYears; year++) {
+System.out.printf("Year %d: $%.2f\n", year + 1,initialAmount + growth[year]); }
 }}
