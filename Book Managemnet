@@ -1,0 +1,196 @@
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class BookManagementSystem {
+
+    // Database connection settings
+    private static final String URL = "jdbc:mysql://localhost:3306/BookDB";
+    private static final String USER = "root";
+    private static final String PASSWORD = "password";
+
+    // Database connection method
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            System.out.println("Database connection failed!");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Book class (Model)
+    static class Book {
+        private int id;
+        private String title;
+        private String author;
+        private int publishedYear;
+        private String genre;
+
+        public Book(String title, String author, int publishedYear, String genre) {
+            this.title = title;
+            this.author = author;
+            this.publishedYear = publishedYear;
+            this.genre = genre;
+        }
+
+        public Book(int id, String title, String author, int publishedYear, String genre) {
+            this.id = id;
+            this.title = title;
+            this.author = author;
+            this.publishedYear = publishedYear;
+            this.genre = genre;
+        }
+
+        // Getters
+        public int getId() { return id; }
+        public String getTitle() { return title; }
+        public String getAuthor() { return author; }
+        public int getPublishedYear() { return publishedYear; }
+        public String getGenre() { return genre; }
+    }
+
+    // BookDAO class for CRUD operations
+    static class BookDAO {
+
+        public void addBook(Book book) {
+            String query = "INSERT INTO books (title, author, published_year, genre) VALUES (?, ?, ?, ?)";
+            try (Connection conn = getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, book.getTitle());
+                stmt.setString(2, book.getAuthor());
+                stmt.setInt(3, book.getPublishedYear());
+                stmt.setString(4, book.getGenre());
+                stmt.executeUpdate();
+                System.out.println("Book added successfully!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public List<Book> getAllBooks() {
+            List<Book> books = new ArrayList<>();
+            String query = "SELECT * FROM books";
+            try (Connection conn = getConnection();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(query)) {
+
+                while (rs.next()) {
+                    Book book = new Book(rs.getInt("book_id"), rs.getString("title"), rs.getString("author"),
+                            rs.getInt("published_year"), rs.getString("genre"));
+                    books.add(book);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return books;
+        }
+
+        public void updateBook(int id, Book book) {
+            String query = "UPDATE books SET title = ?, author = ?, published_year = ?, genre = ? WHERE book_id = ?";
+            try (Connection conn = getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, book.getTitle());
+                stmt.setString(2, book.getAuthor());
+                stmt.setInt(3, book.getPublishedYear());
+                stmt.setString(4, book.getGenre());
+                stmt.setInt(5, id);
+                stmt.executeUpdate();
+                System.out.println("Book updated successfully!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void deleteBook(int id) {
+            String query = "DELETE FROM books WHERE book_id = ?";
+            try (Connection conn = getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+                System.out.println("Book deleted successfully!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Main application class
+    public static void main(String[] args) {
+        BookDAO bookDAO = new BookDAO();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nBook Management System:");
+            System.out.println("1. Add Book");
+            System.out.println("2. View All Books");
+            System.out.println("3. Update Book");
+            System.out.println("4. Delete Book");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1 -> addBook(scanner, bookDAO);
+                case 2 -> viewBooks(bookDAO);
+                case 3 -> updateBook(scanner, bookDAO);
+                case 4 -> deleteBook(scanner, bookDAO);
+                case 5 -> {
+                    System.out.println("Exiting...");
+                    System.exit(0);
+                }
+                default -> System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }
+
+    private static void addBook(Scanner scanner, BookDAO bookDAO) {
+        System.out.print("Enter title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter author: ");
+        String author = scanner.nextLine();
+        System.out.print("Enter published year: ");
+        int year = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        System.out.print("Enter genre: ");
+        String genre = scanner.nextLine();
+
+        Book book = new Book(title, author, year, genre);
+        bookDAO.addBook(book);
+    }
+
+    private static void viewBooks(BookDAO bookDAO) {
+        System.out.println("\nList of all books:");
+        for (Book book : bookDAO.getAllBooks()) {
+            System.out.printf("ID: %d, Title: %s, Author: %s, Year: %d, Genre: %s\n",
+                    book.getId(), book.getTitle(), book.getAuthor(), book.getPublishedYear(), book.getGenre());
+        }
+    }
+
+    private static void updateBook(Scanner scanner, BookDAO bookDAO) {
+        System.out.print("Enter book ID to update: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        System.out.print("Enter new title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter new author: ");
+        String author = scanner.nextLine();
+        System.out.print("Enter new published year: ");
+        int year = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        System.out.print("Enter new genre: ");
+        String genre = scanner.nextLine();
+
+        Book book = new Book(title, author, year, genre);
+        bookDAO.updateBook(id, book);
+    }
+
+    private static void deleteBook(Scanner scanner, BookDAO bookDAO) {
+        System.out.print("Enter book ID to delete: ");
+        int id = scanner.nextInt();
+        bookDAO.deleteBook(id);
+    }
+}
