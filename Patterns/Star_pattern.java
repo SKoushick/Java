@@ -2,18 +2,30 @@ package Patterns;
 
 public class Star_pattern {
     public static void main(String[] args){
-        pattern7(5);
+        pattern11(5);
     }
 
-    //Right triangle
+    //Right triangle 
     static void pattern(int n){
-        for(int row=1;row<=n;row++){
-            for(int col = 1;col<=row;col++){
+        for(int i= n; i >= 1;i--){
+            
+            for(int j=1;j<i ;j++){
+            
+                System.out.print(" ");
+            
+            }
+            
+            for(int j=0;j<=n-i;j++){
+            
                 System.out.print("*");
+            
             }
             System.out.println();
         }
+        
     }
+
+
 
     static void pattern1(int n){
         for(int row=1;row<=n;row++){
@@ -32,10 +44,26 @@ public class Star_pattern {
             System.out.println();
         }
     } 
+
     static void pattern4(int n){
+        int a=0;
         for(int row=1;row<=n;row++){
             for(int column = 1;column<=row;column++){
-                System.out.print(column);
+                System.out.print(a+" ");
+                a++;
+            }
+            System.out.println();
+        }
+    }
+    static void pattern3(int n){
+        for(int row=1;row<=n;row++){
+            for(int col = 1;col<=row;col++){
+                if((row+col)%2==0){
+                    System.out.print(1+" ");
+                }
+                else{
+                    System.out.print(0+" ");
+                }
             }
             System.out.println();
         }
@@ -87,6 +115,48 @@ public class Star_pattern {
             }
             for(int col = 2;col<=row;col++){
                 System.out.print(col + " ");
+            }
+            System.out.println();
+        }
+    }
+
+
+    static void pattern8(int n){
+        for(int i = 1;i>=n;i++){
+            for(int j=1;j<=i;j++){
+                System.out.print(j);
+            }
+            for(int j = 1;j<=(2*n)-2;j++){
+                System.out.print(" ");
+            }
+            for(int j =i;j>=i;j--){
+                System.out.print(j);
+            }
+            System.out.println();
+        }
+    }
+    
+    static void pattern9(int n ){
+        for(int i=0;i<n;i++){
+            for(char ch='A';ch<='A'+i;ch++){
+                System.out.print(ch);
+            }
+            System.out.println();
+        }
+    }
+
+    static void pattern10(int n ){
+        for(int i=0;i<n;i++){
+            for(char ch='A';ch<='A'+(n-i-1);ch++){
+                System.out.print(ch);
+            }
+            System.out.println();
+        }
+    }
+    static void pattern11(int n ){
+        for(int i=0;i<n;i++){
+            for(char ch='A';ch<='A'+i;ch++){
+                System.out.print(ch);
             }
             System.out.println();
         }
