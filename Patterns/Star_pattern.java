@@ -2,7 +2,7 @@ package Patterns;
 
 public class Star_pattern {
     public static void main(String[] args){
-        pattern11(5);
+        pattern17(5);
     }
 
     //Right triangle 
@@ -127,7 +127,7 @@ public class Star_pattern {
     static void pattern10(int n ){
         for(int i=0;i<n;i++){
             for(char ch='A';ch<='A'+(n-i-1);ch++){
-                System.out.print(ch);
+                System.out.print(i);
             }
             System.out.println();
         }
@@ -139,17 +139,48 @@ public class Star_pattern {
             }
             System.out.println();
         }
-    }
-    static void pattern(int n){
-        for(int i= n; i >= 1;i--){
-            for(int j=1;j<i ;j++){
-                System.out.print(" ");
-            }
-            for(int j=0;j<=n-i;j++){
-                System.out.print("*");
+    }  
+
+    static void pattern13(int n ){
+        for(int i=n;i>=0;i--){
+            for(char ch='A';ch<='A'+i;ch++){
+                System.out.print(ch);
             }
             System.out.println();
         }
-        
+    } 
+
+    static void pattern14(int n){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n-i-1;j++){
+                System.out.print(" ");
+            }
+            for(char j='A';j<='A'+i;j++){
+                System.out.print(j);
+            }
+            System.out.println();
+        }
+    }
+    
+    public static void pattern15(int n) {
+        for (int i = n; i >= 1; i--) {       
+            char ch = 'A';                   // Start with 'A'
+            for (int j = 1; j <= i; j++) {   // Print up to i letters
+                System.out.print(ch);
+                ch++;
+            }
+            System.out.println();
+        }
+    }
+
+    static void pattern16(int n ){
+        for(int i=1;i<=n;i++){
+            char a= 'A';
+            for(int j=1;j<=i;j++){
+                System.out.print(a);
+                a++;
+            }
+            System.out.println();
+        }
     }
 }
