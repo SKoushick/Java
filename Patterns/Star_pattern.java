@@ -2,7 +2,7 @@ package Patterns;
 
 public class Star_pattern {
     public static void main(String[] args){
-        pattern17(5);
+        pattern16(5);
     }
 
     //Right triangle 
